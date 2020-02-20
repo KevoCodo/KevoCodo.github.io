@@ -1,3 +1,34 @@
+<?php
+
+  $result="";
+
+  if(isset($_POST['submit'])){
+    require 'php__mailer/PHPMailerAutoload.php';
+    $mail = new PHPMailer;
+
+    $mail->Host='smtp.gmail.com';
+    $mail->Port=587;
+    $mail->SMTPAuth=true;
+    $mail->SMTPSecure='tls';
+    $mail->Username='kevthedev00@gmail.com';
+    $mail->Password='Kodegistics@2019';
+
+    $mail->setFrom($_POST['email'],$_POST['name']);
+    $mail->addAddress('kevthedev00@gmail.com');
+    $mail->addReplyTo($_POST['email'],$_POST['name']);
+
+    $mail->isHTML(true);
+    $mail->Subject='Form Submission: ' .$_POST['subject'];
+    $mail->Body='<h1 algn=center>Name:' .$_POST['name'].'<br>Email: '.$_POST['email']. '<br>Message: '.$_POST['message'].'</h1>';
+
+    if(!$mail->send()){
+      $result="Something went wrong. Please try again.";
+    } else {
+      $result="Thanks ".$_POST['name']. " for reaching out to me. I look forward to speaking with you about this opportunity!";
+    }
+  }
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -112,19 +143,20 @@
                 </div>
                 <div class="col-md-12 form-group">
                   <label for="name">Message</label>
-                  <textarea class="form-control" name="message" cols="30" rows="10" data-rule="required" data-msg="Please write something for us"></textarea>
+                  <textarea class="form-control" name="message" placeholder="What's on your mind?" cols="30" rows="10" data-rule="required" data-msg="Please write something for us"></textarea>
                   <div class="validate"></div>
                 </div>
 
 
-                <div class="col-md-12 mb-3">
+                <!--<div class="col-md-12 mb-3">
                     <div class="loading">Loading</div>
                   <div class="error-message">Your message was not sent. Try again.</div>
-                  <div class="sent-message">Your message has been sent. Thank you!</div>
-                </div>
+                  <div class="sent-message"><?= $result; ?></div>
+                </div>-->
 
                 <div class="col-md-6 form-group">
                   <input type="submit" class="readmore d-block w-100" value="Send Message">
+                  <div class="sent-message"><?= $result; ?></div>
                 </div>
               </div>
 
@@ -166,7 +198,7 @@
           <p class="mb-1">&copy; Kevin Gay. All Rights Reserved</p>
         </div>
         <div class="col-sm-6 social text-md-right">
-          <a href="#"><span class="social pb-2"><img src="https://cdn4.iconfinder.com/data/icons/logos-brands-5/24/netlify-512.png" width="16" height="17.5"></span></a>
+          <a href="#"><span class="social"><img src="https://img.icons8.com/ios/50/000000/heroku.png" width="20"></span></a>
           <a href="https://www.linkedin.com/in/kevin-gay-6aa5b746/"><span class="icofont-linkedin"></span></a>
           <a href="https://github.com/KevoCodo"><span class="icofont-github"></span></a>
           <a href="#"><span class="icofont-dribbble"></span></a>
@@ -192,3 +224,4 @@
 </body>
 
 </html>
+<?php>?
